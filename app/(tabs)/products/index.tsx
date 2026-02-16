@@ -189,12 +189,13 @@ const styles = StyleSheet.create({
   itemWrapper: {
     borderWidth: 1,
     borderColor: "#ccc",
-    marginHorizontal: 80,
+    marginHorizontal: "auto",
     marginVertical: 20,
     borderRadius: 22,
     padding: 18,
     position: "relative",
     backgroundColor: "#faf8f872",
+    maxWidth: 280,
   },
   image: {
     height: 140,

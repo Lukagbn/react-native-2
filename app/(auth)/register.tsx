@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -42,6 +43,8 @@ const register = () => {
     },
   });
   const router = useRouter();
+  const [securePassword, setSecurePassword] = useState(true);
+  const [secureRePassword, setSecureRePassword] = useState(true);
   const handleLogIn = async (data: FormData) => {
     try {
       const res = await fetch("https://fakestoreapi.com/users", {
@@ -92,14 +95,22 @@ const register = () => {
             control={control}
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  secureTextEntry={securePassword}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <Pressable
+                  style={styles.visible}
+                  onPress={() => setSecurePassword(!securePassword)}
+                >
+                  <Text>show</Text>
+                </Pressable>
+              </View>
             )}
           />
           {errors.password && (
@@ -109,14 +120,22 @@ const register = () => {
             control={control}
             name="rePassword"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder="Password again"
-                secureTextEntry
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password again"
+                  secureTextEntry={secureRePassword}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <Pressable
+                  style={styles.visible}
+                  onPress={() => setSecureRePassword(!secureRePassword)}
+                >
+                  <Text>show</Text>
+                </Pressable>
+              </View>
             )}
           />
           {errors.rePassword && (
@@ -184,5 +203,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 70,
     borderRadius: 35,
+  },
+  inputWrapper: {
+    position: "relative",
+  },
+  visible: {
+    position: "absolute",
+    right: 30,
+    top: "50%",
+    transform: [{ translateY: "-50%" }],
   },
 });

@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import {
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -39,6 +40,7 @@ const Index = () => {
   });
   const router = useRouter();
   const [loginError, setLoginError] = useState<null | string>(null);
+  const [secure, setSecure] = useState(false);
   const handleLogIn = async (data: FormData) => {
     try {
       setLoginError(null);
@@ -92,14 +94,22 @@ const Index = () => {
             control={control}
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  secureTextEntry={secure}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <Pressable
+                  style={styles.visible}
+                  onPress={() => setSecure(!secure)}
+                >
+                  <Text>show</Text>
+                </Pressable>
+              </View>
             )}
           />
           {errors.password && (
@@ -168,5 +178,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 70,
     borderRadius: 35,
+  },
+  inputWrapper: {
+    position: "relative",
+  },
+  visible: {
+    position: "absolute",
+    right: 30,
+    top: "50%",
+    transform: [{ translateY: "-50%" }],
   },
 });
