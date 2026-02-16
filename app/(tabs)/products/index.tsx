@@ -54,7 +54,7 @@ export default function Index() {
   };
   if (!products) {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={styles.loadingCotainer}>
         <StatusBar style="dark" />
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Loading</Text>
@@ -64,7 +64,7 @@ export default function Index() {
     );
   }
   return (
-    <SafeAreaView>
+    <View>
       <StatusBar style="dark" />
       <FlatList
         contentContainerStyle={styles.container}
@@ -162,15 +162,17 @@ export default function Index() {
           </View>
         </Pressable>
       </Modal>
-    </SafeAreaView>
+    </View>
   );
 }
 const styles = StyleSheet.create({
-  loading: {
+  loadingCotainer: {
     flex: 1,
     alignItems: "center",
-    gap: 10,
     justifyContent: "center",
+  },
+  loading: {
+    gap: 10,
   },
   loadingText: {
     fontSize: 18,
@@ -179,7 +181,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffff",
     paddingBottom: 50,
-    paddingTop: 50,
+    // paddingTop: 50,
   },
   title: {
     fontWeight: 700,
@@ -189,13 +191,12 @@ const styles = StyleSheet.create({
   itemWrapper: {
     borderWidth: 1,
     borderColor: "#ccc",
-    marginHorizontal: "auto",
+    marginHorizontal: 70,
     marginVertical: 20,
     borderRadius: 22,
     padding: 18,
     position: "relative",
     backgroundColor: "#faf8f872",
-    maxWidth: 280,
   },
   image: {
     height: 140,
