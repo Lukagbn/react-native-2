@@ -2,12 +2,12 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
-  Modal,
   Pressable,
   RefreshControl,
   StyleSheet,
@@ -30,9 +30,9 @@ type productsType = {
 };
 
 export default function Index() {
+  const router = useRouter();
   const [products, setProducts] = useState<productsType[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const fetchProducts = async () => {
     try {
       const res = await fetch("https://fakestoreapi.com/products");
@@ -137,10 +137,7 @@ export default function Index() {
                 </Text>
               </Pressable>
               <Pressable
-                onPress={() => {
-                  console.log("pressed");
-                  setModalVisible(!modalVisible);
-                }}
+                onPress={() => router.push(`./products/${item.id}`)}
                 style={({ pressed }) => [
                   styles.buyBtn,
                   pressed && styles.cartBtnPressed,
@@ -152,16 +149,6 @@ export default function Index() {
           </View>
         )}
       ></FlatList>
-      <Modal visible={modalVisible} transparent animationType="fade">
-        <Pressable
-          onPress={() => setModalVisible(false)}
-          style={styles.modalOverlay}
-        >
-          <View style={styles.modalContent}>
-            <Text>Modal content</Text>
-          </View>
-        </Pressable>
-      </Modal>
     </View>
   );
 }
@@ -181,7 +168,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffff",
     paddingBottom: 50,
-    // paddingTop: 50,
+    paddingTop: 50,
   },
   title: {
     fontWeight: 700,
@@ -191,7 +178,7 @@ const styles = StyleSheet.create({
   itemWrapper: {
     borderWidth: 1,
     borderColor: "#ccc",
-    marginHorizontal: 70,
+    marginHorizontal: 120,
     marginVertical: 20,
     borderRadius: 22,
     padding: 18,
