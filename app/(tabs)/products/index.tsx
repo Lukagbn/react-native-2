@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   itemWrapper: {
     borderWidth: 1,
     borderColor: "#ccc",
-    marginHorizontal: 120,
+    marginHorizontal: 80,
     marginVertical: 20,
     borderRadius: 22,
     padding: 18,

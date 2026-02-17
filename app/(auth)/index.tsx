@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -40,11 +41,11 @@ const Index = () => {
   });
   const router = useRouter();
   const [loginError, setLoginError] = useState<null | string>(null);
-  const [secure, setSecure] = useState(false);
+  const [secure, setSecure] = useState(true);
   const handleLogIn = async (data: FormData) => {
     try {
       setLoginError(null);
-      const res = await fetch("https://fakestoreapi.com/auth/login", {
+      const res = await fetch("https://fakestoreapi.com/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -54,8 +55,8 @@ const Index = () => {
         return;
       }
       const resp = await res.json();
-
-      if (resp?.token) {
+      if (resp?.id) {
+        await AsyncStorage.setItem("user", JSON.stringify(resp.id));
         router.replace("/(tabs)/products");
       }
     } catch (error) {

@@ -1,3 +1,5 @@
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -8,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type ProductType = {
   id: number;
@@ -42,48 +43,51 @@ const index = () => {
     );
   }
   return (
-    <SafeAreaView style={styles.screen}>
-      <Image style={styles.img} source={product?.image} />
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.price}>${product.price}</Text>
-        <Text style={styles.title}>{product.title}</Text>
-        <Text style={styles.category}>{product.category}</Text>
-        <Text style={styles.description}>{product.description}</Text>
+    <>
+      <ScrollView>
+        <Image style={styles.img} source={product?.image} />
+        <View style={styles.container}>
+          <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.category}>{product.category}</Text>
+          <Text style={styles.title}>{product.title}</Text>
+          <Text style={styles.description}>{product.description}</Text>
+          <View style={styles.btnContainer}>
+            <TouchableOpacity style={styles.buy}>
+              <Ionicons name="wallet-outline" size={24} color="white" />
+              <Text style={{ color: "#ffff" }}>Buy Now</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cart}>
+              <Text style={{ color: "#ffff" }}>
+                <AntDesign name="shopping-cart" size={24} color="black" />
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </ScrollView>
-      <SafeAreaView edges={["bottom"]} style={styles.btnContainer}>
-        <TouchableOpacity style={styles.buy}>
-          <Text style={{ color: "#ffff" }}>But Now</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.cart}>
-          <Text style={{ color: "#ffff" }}>cart</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </SafeAreaView>
+    </>
   );
 };
 
 export default index;
 
 const styles = StyleSheet.create({
-  screen: {
-    backgroundColor: "#ffff",
+  container: {
+    zIndex: 1,
+    backgroundColor: "#f1f1f1",
+    borderTopLeftRadius: 35,
+    borderTopRightRadius: 35,
+    marginTop: 400,
+    padding: 20,
+    gap: 10,
     flex: 1,
+    minHeight: "100%",
   },
   img: {
     position: "absolute",
     top: 0,
     width: "100%",
     height: 450,
-    zIndex: -1,
-  },
-  container: {
-    marginTop: 400,
-    padding: 30,
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-    backgroundColor: "#ffffff",
-    gap: 15,
-    justifyContent: "space-between",
+    zIndex: 1,
   },
   price: {
     fontSize: 20,
@@ -100,30 +104,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   btnContainer: {
-    position: "fixed",
-    bottom: 0,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 20,
-    backgroundColor: "#ffffff",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: "#cccc",
+    marginTop: 10,
   },
   buy: {
     backgroundColor: "rgb(25, 88, 247)c",
     borderRadius: 10,
     padding: 15,
-    maxWidth: 450,
-    width: "100%",
+    width: "70%",
     alignItems: "center",
+    flexDirection: "row",
+    gap: 10,
+    justifyContent: "center",
   },
   cart: {
-    maxWidth: 70,
+    width: "25%",
     padding: 15,
-    width: "100%",
-    backgroundColor: "#ccc",
+    backgroundColor: "#e5e5e5",
     alignItems: "center",
     borderRadius: 10,
   },
