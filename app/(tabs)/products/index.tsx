@@ -58,7 +58,7 @@ export default function Index() {
         <StatusBar style="dark" />
         <View style={styles.loading}>
           <Text style={styles.loadingText}>Loading</Text>
-          <ActivityIndicator size={"large"} color={"red"} />
+          <ActivityIndicator size={"large"} color={"#00c3ffcc"} />
         </View>
       </SafeAreaView>
     );
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
 
     // Android shadow
-    elevation: 4,
+    elevation: 10,
   },
   cart: {
     fontSize: 20,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
 
     // Android shadow
-    elevation: 6,
+    elevation: 10,
   },
   buy: {
     fontWeight: 700,
