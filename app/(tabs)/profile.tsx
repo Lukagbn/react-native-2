@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -11,32 +12,12 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type User = {
-  address: {
-    geolocation: {
-      lat: string;
-      long: string;
-    };
-    city: string;
-    street: string;
-    number: number;
-    zipcode: string;
-  };
-  id: number;
-  email: string;
-  username: string;
-  password: string;
-  name: {
-    firstname: string;
-    lastname: string;
-  };
-  phone: string;
-};
+import { User } from "../utils/user";
 
 const profile = () => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const logOut = () => {
     router.replace("/(auth)");
     AsyncStorage.removeItem("user");
@@ -45,9 +26,32 @@ const profile = () => {
     try {
       const res = await fetch(`https://fakestoreapi.com/users/1`);
       const resp = await res.json();
-      return setUser(resp);
+      setUser(resp);
+      const savedImage = await AsyncStorage.getItem("profileImage");
+      if (savedImage) setSelectedImage(savedImage);
     } catch (error) {
       console.error("Error", error);
+    }
+  };
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setSelectedImage(uri);
+      await AsyncStorage.setItem("profile_image", uri);
     }
   };
   useEffect(() => {
@@ -68,10 +72,17 @@ const profile = () => {
       <Text style={styles.title}>
         Welcome {user?.name.firstname} {user?.name.lastname}!
       </Text>
-      <Image
-        source={require("../../assets/images/profile.png")}
-        style={styles.profileImage}
-      />
+      <TouchableOpacity onPress={pickImage} style={styles.imgContainer}>
+        <Image
+          source={
+            selectedImage
+              ? { uri: selectedImage }
+              : require("../../assets/images/profile.png")
+          }
+          style={styles.profileImage}
+        />
+        <Text style={styles.photoTxt}>Change Photo</Text>
+      </TouchableOpacity>
       <Text style={styles.detailsTitle}>Details:</Text>
       <View style={styles.detailsContainer}>
         <View style={styles.detailsWrapper}>
@@ -141,6 +152,10 @@ const styles = StyleSheet.create({
     height: 150,
     alignSelf: "center",
   },
+  imgContainer: {
+    alignItems: "center",
+  },
+  photoTxt: { color: "#00c3ff", marginTop: 5 },
   logOutBtn: {
     backgroundColor: "#00c3ffcc",
     paddingVertical: 20,

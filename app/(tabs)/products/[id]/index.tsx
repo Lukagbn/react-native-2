@@ -1,3 +1,4 @@
+import { handleAddToCart, productsType } from "@/app/utils/cart";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image } from "expo-image";
@@ -11,22 +12,9 @@ import {
   View,
 } from "react-native";
 
-type ProductType = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: "men's clothing" | "jewelery" | "electronics" | "women's clothing";
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-};
-
 const index = () => {
   const { id } = useLocalSearchParams();
-  const [product, setProduct] = useState<ProductType | null>(null);
+  const [product, setProduct] = useState<productsType | null>(null);
   const fetchProduct = async () => {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`);
     const result = await res.json();
@@ -56,7 +44,10 @@ const index = () => {
               <Ionicons name="wallet-outline" size={24} color="white" />
               <Text style={{ color: "#ffff" }}>Buy Now</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cart}>
+            <TouchableOpacity
+              style={styles.cart}
+              onPress={() => handleAddToCart(product)}
+            >
               <Text style={{ color: "#ffff" }}>
                 <AntDesign name="shopping-cart" size={24} color="black" />
               </Text>

@@ -1,7 +1,7 @@
+import { handleAddToCart, productsType } from "@/app/utils/cart";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -17,19 +17,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-type productsType = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: "men's clothing" | "jewelery" | "electronics" | "women's clothing";
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-};
-
 export default function Index() {
   const router = useRouter();
   const [products, setProducts] = useState<productsType[] | null>(null);
@@ -42,32 +29,6 @@ export default function Index() {
       setProducts(result);
     } catch (error) {
       console.log(`this is error: ${error}`);
-    }
-  };
-  const handleAddToCart = async (product: productsType) => {
-    try {
-      let cart;
-      const existingCart = await AsyncStorage.getItem("cart");
-
-      if (existingCart) {
-        cart = JSON.parse(existingCart);
-      } else {
-        cart = [];
-      }
-      const alreadyExists = cart.find(
-        (item: productsType) => item.id === product.id,
-      );
-
-      if (!alreadyExists) {
-        cart.push(product);
-        await AsyncStorage.setItem("cart", JSON.stringify(cart));
-        console.log("Added to cart");
-      } else {
-        console.log(alreadyExists);
-        console.log("Already in cart");
-      }
-    } catch (error) {
-      console.log("Error adding to cart", error);
     }
   };
 

@@ -10,18 +10,10 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-type CartItem = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  image: string;
-  quantity?: number;
-};
+import { CartItem } from "../utils/cart";
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
   const loadCart = async () => {
@@ -29,6 +21,8 @@ export default function Cart() {
     console.log(storedCart);
     if (storedCart) {
       setCartItems(JSON.parse(storedCart));
+    } else {
+      setCartItems(null);
     }
   };
   const onRefresh = () => {
@@ -39,22 +33,22 @@ export default function Cart() {
     }, 1000);
   };
   const handleIncrease = async (id: number) => {
-    const updatedCart = cartItems.map((item) =>
+    const updatedCart = cartItems?.map((item) =>
       item.id === id ? { ...item, quantity: (item.quantity ?? 1) + 1 } : item,
     );
 
-    setCartItems(updatedCart);
+    setCartItems(updatedCart ?? null);
     await AsyncStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   const handleDecrease = async (id: number) => {
     const updatedCart = cartItems
-      .map((item) =>
+      ?.map((item) =>
         item.id === id ? { ...item, quantity: (item.quantity ?? 1) - 1 } : item,
       )
       .filter((item) => (item.quantity ?? 1) > 0);
 
-    setCartItems(updatedCart);
+    setCartItems(updatedCart ?? null);
     await AsyncStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
@@ -62,7 +56,7 @@ export default function Cart() {
     loadCart();
   }, []);
 
-  if (cartItems.length === 0) {
+  if (cartItems?.length === 0) {
     return (
       <View>
         <Text>Your cart is empty!, try to add products, or</Text>
