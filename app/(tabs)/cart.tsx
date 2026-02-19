@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
+import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   FlatList,
@@ -80,7 +81,9 @@ export default function Cart() {
         }
         renderItem={({ item }) => (
           <View style={styles.container}>
-            <Image source={`${item.image}`} style={styles.image} />
+            <Link href={`/(tabs)/products/${item.id}`}>
+              <Image source={`${item.image}`} style={styles.image} />
+            </Link>
             <View style={styles.cartInfoWrapper}>
               <Text numberOfLines={1} ellipsizeMode="tail" style={styles.title}>
                 {item.title}
