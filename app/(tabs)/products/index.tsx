@@ -133,7 +133,7 @@ export default function Index() {
                   pressed && styles.cartBtnPressed,
                 ]}
               >
-                <Text style={styles.buy}>ყიდვა</Text>
+                <Text style={styles.buy}>Buy</Text>
               </Pressable>
             </View>
           </View>

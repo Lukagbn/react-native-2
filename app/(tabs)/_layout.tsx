@@ -15,7 +15,8 @@ const _layout = () => {
       <Tabs.Screen
         name="products"
         options={{
-          headerTitle: "products",
+          headerTitle: "Products",
+          headerTitleAlign: "center",
           tabBarLabel: "products",
           tabBarIcon: ({ color, focused }) => (
             <AntDesign name="shop" size={focused ? 27 : 25} color={color} />
@@ -25,7 +26,8 @@ const _layout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          headerTitle: "profile",
+          headerTitle: "Profile",
+          headerTitleAlign: "center",
           tabBarLabel: "profile",
           tabBarIcon: ({ color, focused }) => (
             <Feather name="user" size={focused ? 27 : 25} color={color} />
@@ -35,7 +37,8 @@ const _layout = () => {
       <Tabs.Screen
         name="cart"
         options={{
-          headerTitle: "cart",
+          headerTitle: "Cart",
+          headerTitleAlign: "center",
           tabBarLabel: "cart",
           tabBarIcon: ({ color, focused }) => (
             <AntDesign
