@@ -17,7 +17,7 @@ Designed with clean UI, smooth navigation, and optimized mobile experience.
 - Token persistence using AsyncStorage
 - Auto-login on app reload
 
-<img width="300" height="400" alt="login" src="[https://github.com/user-attachments/assets/a018b16b-8d3a-4c9e-900d-ef98b67fa652](https://raw.githubusercontent.com/Lukagbn/react-native-2/refs/heads/main/assets/screenshots/login.png)" />
+<img src="https://raw.githubusercontent.com/Lukagbn/react-native-2/refs/heads/main/assets/screenshots/login.png" width="300" alt="Login Screen" />
 
 ---
 
