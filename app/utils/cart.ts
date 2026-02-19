@@ -18,25 +18,32 @@ export type CartItem = {
   price: number;
   category: string;
   image: string;
-  quantity?: number;
+  quantity: number;
 };
+
 export const handleAddToCart = async (product: productsType) => {
   try {
     const existingCart = await AsyncStorage.getItem("cart");
-    let cart = existingCart ? JSON.parse(existingCart) : [];
+    let cart: CartItem[] = existingCart ? JSON.parse(existingCart) : [];
 
-    const alreadyExists = cart.find(
-      (item: productsType) => item.id === product.id,
-    );
+    const existingIndex = cart.findIndex((item) => item.id === product.id);
 
-    if (!alreadyExists) {
-      cart.push(product);
-      await AsyncStorage.setItem("cart", JSON.stringify(cart));
-      console.log("Added to cart:", cart);
+    if (existingIndex !== -1) {
+      cart[existingIndex].quantity += 1;
     } else {
-      alert("This item already exists in cart");
+      cart.push({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        category: product.category,
+        image: product.image,
+        quantity: 1,
+      });
     }
+
+    await AsyncStorage.setItem("cart", JSON.stringify(cart));
+    console.log("Updated cart:", cart);
   } catch (error) {
-    console.error("error:", error);
+    console.error("Error adding to cart:", error);
   }
 };
