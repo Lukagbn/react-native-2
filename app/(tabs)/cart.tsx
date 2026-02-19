@@ -58,10 +58,12 @@ export default function Cart() {
 
   if (cartItems?.length === 0) {
     return (
-      <View>
-        <Text>Your cart is empty!, try to add products, or</Text>
-        <TouchableOpacity onPress={onRefresh}>
-          <Text>refresh the page.</Text>
+      <View style={styles.emptyCart}>
+        <Text style={styles.emptyCartTitle}>
+          Your cart is empty!, try to add products, or
+        </Text>
+        <TouchableOpacity onPress={onRefresh} style={styles.emptyCartBtn}>
+          <Text>refresh the page</Text>
         </TouchableOpacity>
       </View>
     );
@@ -116,6 +118,21 @@ export default function Cart() {
 }
 
 const styles = StyleSheet.create({
+  emptyCart: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 10,
+  },
+  emptyCartTitle: {
+    fontWeight: 700,
+    fontSize: 19,
+  },
+  emptyCartBtn: {
+    borderRadius: 10,
+    backgroundColor: "#ccc",
+    padding: 10,
+  },
   container: {
     flex: 1,
     height: 150,

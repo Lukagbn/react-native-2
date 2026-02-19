@@ -34,7 +34,7 @@ export const handleAddToCart = async (product: productsType) => {
       await AsyncStorage.setItem("cart", JSON.stringify(cart));
       console.log("Added to cart:", cart);
     } else {
-      console.error("already exists");
+      alert("This item already exists in cart");
     }
   } catch (error) {
     console.error("error:", error);
