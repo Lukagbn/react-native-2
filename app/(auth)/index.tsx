@@ -63,7 +63,8 @@ const Index = () => {
         await AsyncStorage.setItem("user", JSON.stringify(resp.token));
         setTimeout(async () => {
           AsyncStorage.clear();
-          router.replace("/(auth)");
+          // additional #2
+          // router.replace("/(auth)");
         }, 10000);
         router.replace("/(tabs)/products");
       }
@@ -140,11 +141,17 @@ const Index = () => {
           >
             <View
               style={{
-                width: 10,
-                height: 10,
+                width: 20,
+                height: 20,
                 backgroundColor: checked ? "#00ff15" : "#ccc",
+                alignItems: "center",
+                borderRadius: 5,
               }}
-            ></View>
+            >
+              <Text style={{ opacity: checked ? 1 : 0, color: "white" }}>
+                ✓
+              </Text>
+            </View>
             <Text>Remember Me</Text>
           </TouchableOpacity>
           <TouchableOpacity>
