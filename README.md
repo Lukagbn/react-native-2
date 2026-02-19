@@ -1,50 +1,195 @@
-# Welcome to your Expo app 👋
+# 🛍️ Mobile Store App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern, fully responsive **React Native e-commerce mobile application** built with **Expo Router** and powered by **FakeStoreAPI**.  
+The app features authentication, product browsing, detailed product pages, persistent cart management using AsyncStorage, and a customizable user profile with image upload support.
 
-## Get started
+Designed with clean UI, smooth navigation, and optimized mobile experience.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## ✨ Features
 
-2. Start the app
+### 🔐 Authentication (Login & Register)
 
-   ```bash
-   npx expo start
-   ```
+- Form validation using React Hook Form + Yup
+- Login via FakeStoreAPI authentication endpoint
+- “Remember Me” functionality
+- Token persistence using AsyncStorage
+- Auto-login on app reload
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### 🛍️ Products Screen
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Fetches products dynamically from FakeStoreAPI
+- Pull-to-refresh support
+- Loading state with ActivityIndicator
+- Add to cart directly from product list
+- Navigate to product details page
 
-## Get a fresh project
+---
 
-When you're ready, run:
+### 🔎 Product Details
 
-```bash
-npm run reset-project
+- Dynamic route using `[id]`
+- Displays:
+  - Product image
+  - Title
+  - Description
+  - Category
+  - Price
+- Add to cart functionality
+- Buy Now button (UI)
+
+---
+
+### 🛒 Shopping Cart
+
+- Cart data stored in AsyncStorage
+- Add products
+- Increase quantity
+- Decrease quantity
+- Remove item when quantity reaches 0
+- Pull-to-refresh support
+- Real-time total price calculation
+
+---
+
+### 👤 Profile Page
+
+- Fetches user data from FakeStoreAPI
+- Displays:
+  - Name
+  - Email
+  - Address details
+- Upload profile image using Expo Image Picker
+- Persist selected image in AsyncStorage
+- Logout functionality
+
+---
+
+## 🧠 State & Storage Management
+
+This project uses **AsyncStorage** for persistent state instead of Redux.
+
+### 🛒 Cart Storage Logic
+
+```ts
+AsyncStorage Key: "cart"
+
+CartItem:
+{
+  id: number,
+  title: string,
+  price: number,
+  category: string,
+  image: string,
+  quantity: number
+}
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Cart Behavior:
 
-## Learn more
+- If product already exists → increase quantity
+- If product does not exist → add with quantity 1
+- If quantity becomes 0 → remove from cart
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 👤 User Storage
 
-## Join the community
+```ts
+AsyncStorage Key: "user"
+```
 
-Join our community of developers creating universal apps.
+- Stores authentication token
+- Used for auto-login
+- Cleared on logout
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 📁 Project Structure
+
+```
+app
+├── _layout.tsx
+├── (auth)
+│   ├── _layout.tsx
+│   ├── index.tsx        (Login)
+│   └── register.tsx
+│
+├── (tabs)
+│   ├── _layout.tsx
+│   ├── cart.tsx
+│   ├── profile.tsx
+│   └── products
+│       ├── _layout.tsx
+│       ├── index.tsx
+│       └── [id]
+│           └── index.tsx
+│
+├── utils
+│   ├── cart.ts
+│   └── user.ts
+│
+assets
+└── images
+```
+
+---
+
+## 🧰 Tech Stack
+
+- React Native
+- Expo
+- Expo Router
+- TypeScript
+- React Hook Form
+- Yup
+- AsyncStorage
+- Expo Image Picker
+- Expo Image
+- FakeStoreAPI
+
+---
+
+## 📦 Dependencies
+
+```json
+{
+  "expo": "...",
+  "expo-router": "...",
+  "react-native": "...",
+  "@react-native-async-storage/async-storage": "...",
+  "react-hook-form": "...",
+  "yup": "...",
+  "@hookform/resolvers": "...",
+  "expo-image-picker": "...",
+  "expo-image": "..."
+}
+```
+
+---
+
+## 🚀 Getting Started
+
+```bash
+npm install
+npx expo start
+```
+
+Then:
+
+- Press `i` → run on iOS simulator
+- Press `a` → run on Android emulator
+- Or scan the QR code with the Expo Go app
+
+---
+
+## 📝 Notes
+
+- This is a mobile application built with Expo.
+- Authentication is simulated using FakeStoreAPI.
+- Cart and user session are stored locally using AsyncStorage.
+- No backend server required.
+- Designed as a portfolio-ready mobile commerce app.
