@@ -42,10 +42,11 @@ const Index = () => {
   const router = useRouter();
   const [loginError, setLoginError] = useState<null | string>(null);
   const [secure, setSecure] = useState(true);
+  const [checked, setChecked] = useState(false);
   const handleLogIn = async (data: FormData) => {
     try {
       setLoginError(null);
-      const res = await fetch("https://fakestoreapi.com/users", {
+      const res = await fetch("https://fakestoreapi.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -55,8 +56,15 @@ const Index = () => {
         return;
       }
       const resp = await res.json();
-      if (resp?.id) {
-        await AsyncStorage.setItem("user", JSON.stringify(resp.id));
+      if (resp?.token && checked) {
+        await AsyncStorage.setItem("user", JSON.stringify(resp.token));
+        router.replace("/(tabs)/products");
+      } else if (resp?.token && checked === false) {
+        await AsyncStorage.setItem("user", JSON.stringify(resp.token));
+        setTimeout(async () => {
+          AsyncStorage.clear();
+          router.replace("/(auth)");
+        }, 10000);
         router.replace("/(tabs)/products");
       }
     } catch (error) {
@@ -125,8 +133,26 @@ const Index = () => {
           >
             <Text style={styles.signInBtn}>Sing in</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            hitSlop={5}
+            onPress={() => setChecked(!checked)}
+          >
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                backgroundColor: checked ? "#00ff15" : "#ccc",
+              }}
+            ></View>
+            <Text>Remember Me</Text>
+          </TouchableOpacity>
           <TouchableOpacity>
-            <Link href={"/(auth)/register"} style={styles.registerBtn}>
+            <Link
+              href={"/(auth)/register"}
+              style={styles.registerBtn}
+              replace={true}
+            >
               Register
             </Link>
           </TouchableOpacity>

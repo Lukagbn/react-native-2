@@ -32,6 +32,20 @@ const _layout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          headerTitle: "cart",
+          tabBarLabel: "cart",
+          tabBarIcon: ({ color, focused }) => (
+            <AntDesign
+              name="shopping-cart"
+              size={focused ? 27 : 25}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 };

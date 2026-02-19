@@ -150,7 +150,7 @@ const register = () => {
             <Text style={styles.signInBtn}>Register</Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Link href={"/(auth)"} style={styles.registerBtn}>
+            <Link href={"/(auth)"} style={styles.registerBtn} replace={true}>
               Sign In
             </Link>
           </TouchableOpacity>

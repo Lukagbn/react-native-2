@@ -1,6 +1,7 @@
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Entypo from "@expo/vector-icons/Entypo";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -33,6 +34,7 @@ export default function Index() {
   const router = useRouter();
   const [products, setProducts] = useState<productsType[] | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+
   const fetchProducts = async () => {
     try {
       const res = await fetch("https://fakestoreapi.com/products");
@@ -42,6 +44,33 @@ export default function Index() {
       console.log(`this is error: ${error}`);
     }
   };
+  const handleAddToCart = async (product: productsType) => {
+    try {
+      let cart;
+      const existingCart = await AsyncStorage.getItem("cart");
+
+      if (existingCart) {
+        cart = JSON.parse(existingCart);
+      } else {
+        cart = [];
+      }
+      const alreadyExists = cart.find(
+        (item: productsType) => item.id === product.id,
+      );
+
+      if (!alreadyExists) {
+        cart.push(product);
+        await AsyncStorage.setItem("cart", JSON.stringify(cart));
+        console.log("Added to cart");
+      } else {
+        console.log(alreadyExists);
+        console.log("Already in cart");
+      }
+    } catch (error) {
+      console.log("Error adding to cart", error);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -125,7 +154,7 @@ export default function Index() {
             <View style={styles.btnContainer}>
               <Pressable
                 onPress={() => {
-                  console.log("pressed");
+                  handleAddToCart(item);
                 }}
                 style={({ pressed }) => [
                   styles.cartBtn,

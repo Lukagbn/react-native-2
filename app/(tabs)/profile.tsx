@@ -42,10 +42,8 @@ const profile = () => {
     AsyncStorage.removeItem("user");
   };
   const loadUser = async () => {
-    const userId = await AsyncStorage.getItem("user");
-    const id = Number(userId) % 10;
     try {
-      const res = await fetch(`https://fakestoreapi.com/users/${id}`);
+      const res = await fetch(`https://fakestoreapi.com/users/1`);
       const resp = await res.json();
       return setUser(resp);
     } catch (error) {
